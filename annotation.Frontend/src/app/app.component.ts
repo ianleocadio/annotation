@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { WeatherForecasts } from '../types/weatherForecast';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +9,4 @@ import { WeatherForecasts } from '../types/weatherForecast';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'weather';
-  forecasts: WeatherForecasts = [];
-
-  constructor(private http: HttpClient) {
-    http.get<WeatherForecasts>('api/weatherforecast').subscribe({
-      next: result => this.forecasts = result,
-      error: console.error
-    });
-  }
-}
+export class AppComponent {}

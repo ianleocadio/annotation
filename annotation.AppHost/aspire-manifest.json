@@ -1,46 +1,50 @@
 {
-    "resources": {
-      "api": {
-        "type": "project.v0",
-        "path": "../annotation.Api/annotation.Api.csproj",
-        "env": {
-          "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
-          "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
-          "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
-          "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true"
-        },
-        "bindings": {
-          "http": {
-            "scheme": "http",
-            "protocol": "tcp",
-            "transport": "http"
-          },
-          "https": {
-            "scheme": "https",
-            "protocol": "tcp",
-            "transport": "http"
-          }
-        }
+  "$schema": "https://json.schemastore.org/aspire-8.0.json",
+  "resources": {
+    "api": {
+      "type": "project.v0",
+      "path": "../annotation.Api/annotation.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{api.bindings.http.targetPort}"
       },
-      "frontend": {
-        "type": "dockerfile.v0",
-        "path": "../annotation.Frontend/Dockerfile",
-        "context": "../annotation.Frontend",
-        "env": {
-          "NODE_ENV": "production",
-          "services__api__http__0": "{api.bindings.http.url}",
-          "services__api__https__0": "{api.bindings.https.url}",
-          "PORT": "{frontend.bindings.http.targetPort}"
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
         },
-        "bindings": {
-          "http": {
-            "scheme": "http",
-            "protocol": "tcp",
-            "transport": "http",
-            "targetPort": 8000,
-            "external": true
-          }
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http",
+          "external": true
+        }
+      }
+    },
+    "frontend": {
+      "type": "dockerfile.v0",
+      "path": "../annotation.Frontend/Dockerfile",
+      "context": "../annotation.Frontend",
+      "env": {
+        "NODE_ENV": "production",
+        "services__api__http__0": "{api.bindings.http.url}",
+        "services__api__https__0": "{api.bindings.https.url}",
+        "PORT": "{frontend.bindings.http.targetPort}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 8000,
+          "external": true
         }
       }
     }
   }
+}
